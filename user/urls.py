@@ -6,7 +6,9 @@ urlpatterns = [
     path('register', views.registerUser),
     path('get_user/<str:pk>', views.getUser),
     path('update_user/<str:pk>', views.updateUser),
-    path('delete_user/<str:pk>', views.deleteUser)
+    path('delete_user/<str:pk>', views.deleteUser),
+    path('verify_email', views.verifyEmail),
+    path('resend_otp', views.resendOtp)
 ]
 
 
