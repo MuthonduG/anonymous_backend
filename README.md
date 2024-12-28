@@ -25,8 +25,8 @@ Defines user logic including:
 #### To start app ####
 
 Run either of the commands:
-    => docker decompose up
-    => docker decompose up --build
+    *** docker decompose up ***
+    *** docker decompose up --build ***
 
 #### Incase of issues with migrations ####
 1. First decompose down. This can be either done for volumes or containers
