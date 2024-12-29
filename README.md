@@ -15,10 +15,10 @@ Defines user logic including:
 2. User login
 3. Email confirmation feature
 4. User anonymous id creation
-5. 
+5. Admin / staff user responsibilities definition
 
 #### Reports ####
-
+1. User uploads 
 
 # docker commands
 
@@ -57,11 +57,11 @@ Run either of the commands:
 4. Drop and recreate the database:
     - \c template1
     - DROP DATABASE postgres WITH (FORCE);
-    CREATE DATABASE postgres;
+    - CREATE DATABASE postgres;
 
 5. Finally decompose up to activate containers with either of the commands below:
-    - docker decompose up
-    - docker decompose up --build
+    - docker compose up
+    - docker compose up --build
 
 
 

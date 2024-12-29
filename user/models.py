@@ -33,19 +33,20 @@ class CustomUserManager(BaseUserManager):
         return self.create_user(email, password, **extra_fields)
 
 
+# custom user model
 class User(AbstractBaseUser, PermissionsMixin):
     email = models.EmailField(unique=True)
     password = models.CharField(max_length=128)  
     anonymous_unique_id = models.CharField(max_length=256, editable=False)
     security_query_response = models.CharField(max_length=256)
-    is_active = models.BooleanField(default=True)
+    is_active = models.BooleanField(default=False)
     is_staff = models.BooleanField(default=False)
     date_joined = models.DateTimeField(auto_now_add=True)
 
     objects = CustomUserManager()
 
     USERNAME_FIELD = 'email'
-    REQUIRED_FIELDS = []  # Add additional required fields here if necessary
+    REQUIRED_FIELDS = []  
 
     def clean(self):
         super().clean()
@@ -77,9 +78,11 @@ def pre_save_user(sender, instance, **kwargs):
         instance.password = make_password(instance.password)
 
 
+# custom otp generator method
 def generate_otp_code():
     return secrets.token_hex(3).upper()
 
+# otp token model
 class OtpToken(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name="otps")
     otp_code = models.CharField(max_length=6, default=generate_otp_code().upper())

@@ -1,6 +1,11 @@
 asgiref==3.8.1
+certifi==2024.12.14
+cloudinary==1.41.0
 Django==5.1.4
 django-admin-cli==0.1.1
 djangorestframework==3.15.2
 psycopg2-binary==2.9.10
+python-decouple==3.8
+six==1.17.0
 sqlparse==0.5.3
+urllib3==2.3.0
