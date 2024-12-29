@@ -4,8 +4,8 @@
 1. Clone https://github.com/MuthonduG/anonymous_backend.git
 2. create .env and add smtp credentials
 3. Start app using either:
-    - docker decompose up
-    - docker decompose up --build
+    - docker compose up
+    - docker compose up --build
 
 # Apps 
 
@@ -25,28 +25,28 @@ Defines user logic including:
 #### To start app ####
 
 Run either of the commands:
-    *** docker decompose up ***
-    *** docker decompose up --build ***
+    *** docker compose up ***
+    *** docker compose up --build ***
 
 #### Incase of issues with migrations ####
-1. First decompose down. This can be either done for volumes or containers
-    - docker decompose down
-    - docker decompose down --volumes
+1. First compose down. This can be either done for volumes or containers
+    - docker compose down
+    - docker compose down --volumes
 
 2. Directly make migrations and yhe migrate
     - docker exec -it djangoapp python manage.py makemigrations
     - docker exec -it djangoapp python manage.py migrate
 
-3. Finally, decompose up with either of the below:
-    - docker decompose up
-    - docker decompose up --build
+3. Finally, compose up with either of the below:
+    - docker compose up
+    - docker compose up --build
 
 
 #### Incase of errors with database ####
 
-1. First decompose down. This can be either done for volumes or containers
-    - docker decompose down
-    - docker decompose down --volumes
+1. First compose down. This can be either done for volumes or containers
+    - docker compose down
+    - docker compose down --volumes
 
 2. Activate your container without actually having to use actively:
     - docker compose up -d db
@@ -59,7 +59,7 @@ Run either of the commands:
     - DROP DATABASE postgres WITH (FORCE);
     - CREATE DATABASE postgres;
 
-5. Finally decompose up to activate containers with either of the commands below:
+5. Finally compose up to activate containers with either of the commands below:
     - docker compose up
     - docker compose up --build
 

@@ -11,9 +11,9 @@ class Report(models.Model):
     report_type = models.CharField(max_length=150)
     report_description = models.CharField(max_length=1000)
     report_status = models.BooleanField(default=False)
-    image_data = CloudinaryField('image') 
-    audio_data = CloudinaryField('audio')  
-    video_data = CloudinaryField('video')
+    image_data = CloudinaryField('image', blank=True, null=True) 
+    audio_data = CloudinaryField('audio', blank=True, null=True)  
+    video_data = CloudinaryField('video', blank=True, null=True)
     uploaded_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):

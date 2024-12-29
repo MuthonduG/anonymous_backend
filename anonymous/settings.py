@@ -131,6 +131,11 @@ STATIC_URL = 'static/'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
+# Django file upload settings
+FILE_UPLOAD_MAX_MEMORY_SIZE = 52428800  # 50 MB
+DATA_UPLOAD_MAX_MEMORY_SIZE = 52428800  # 50 MB
+DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
+
 # set up user auth 
 AUTH_USER_MODEL = 'user.User'
 
@@ -149,3 +154,5 @@ cloudinary.config(
     api_key=config('CLOUD_API_KEY'),
     api_secret=config('CLOUD_API_SECRTET')
 )
+
+CLOUDINARY_MAX_FILE_SIZE = 52428800  # 50 MB
