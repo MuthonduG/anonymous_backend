@@ -3,7 +3,7 @@ from django.conf import settings
 
 # Create your models here.
 class Notification(models.Model):
-    user_id = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name="reports")
+    user_id = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name="notifications")
     issue_id = models.CharField(max_length=150)
     notification_header = models.CharField(max_length=150)
     notification_message = models.CharField(max_length=1000)
