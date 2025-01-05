@@ -5,6 +5,7 @@ from rest_framework import status
 from django.shortcuts import get_object_or_404
 from .models import Report
 from .serializers import UserReportSerializer
+from notifications.signals import notify
 import logging
 
 logger = logging.getLogger(__name__)
@@ -32,8 +33,18 @@ def createReport(request):
     serializer = UserReportSerializer(data=request.data)
     if serializer.is_valid():
         # Associate the report with the logged-in user's primary key
-        serializer.save(user_id=request.user.pk)
+        report = serializer.save(user_id=request.user.pk)
         logger.info(f"User {request.user.username} created a new report.")
+        
+        # Send a notification to the user
+        notify.send(
+            sender=request.user,
+            recipient=request.user,
+            verb='created a new report',
+            description=f"Report titled '{report.report_title}' was successfully created.",
+            action_object=report
+        )
+
         return Response(serializer.data, status=status.HTTP_201_CREATED)
     else:
         logger.error(f"Report creation errors: {serializer.errors}")
@@ -57,9 +68,22 @@ def updateReport(request, pk):
     if is_admin:
         # Admin can only update `report_status`
         if 'report_status' in data:
+            old_status = report.report_status  # Save the old status for logging
             report.report_status = data['report_status']
             report.save()
-            logger.info(f"Admin updated report status for report {report.report_title}.")
+
+            # Log the update
+            logger.info(f"Admin updated report status for report {report.report_title} from '{old_status}' to '{data['report_status']}'.")
+
+            # Send a notification to the report's creator
+            notify.send(
+                sender=request.user,
+                recipient=report.user,  # Assuming `report.user` is the creator of the report
+                verb='updated the status of your report',
+                description=f"The status of your report titled '{report.report_title}' was updated to '{report.report_status}'.",
+                action_object=report
+            )
+
             return Response({"message": "Report status updated by admin."}, status=status.HTTP_200_OK)
         else:
             return Response(
@@ -77,7 +101,7 @@ def updateReport(request, pk):
         serializer = UserReportSerializer(instance=report, data=data, partial=True)
         if serializer.is_valid():
             serializer.save()
-            logger.info(f"User {request.user.anonymous_unique_id} updated report {report.report_title}.")
+            logger.info(f"User {request.user.username} updated report {report.report_title}.")
             return Response(serializer.data, status=status.HTTP_200_OK)
         else:
             logger.error(f"Update errors for report {report.report_title}: {serializer.errors}")
@@ -90,6 +114,7 @@ def updateReport(request, pk):
             {"error": "You are not authorized to update this report."},
             status=status.HTTP_403_FORBIDDEN
         )
+
 
 # Delete a report
 @api_view(['DELETE'])
