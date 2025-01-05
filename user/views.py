@@ -97,6 +97,7 @@ def deleteUser(request, pk):
 
 # activate account using OTP
 @api_view(['POST'])
+@permission_classes([AllowAny]) 
 def verifyEmail(request):
     # Extract email and OTP from request data
     email = request.data.get("email")
